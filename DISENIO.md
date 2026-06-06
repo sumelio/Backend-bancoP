@@ -3,6 +3,8 @@ Stack
 - Java 17
 - Spring Boot 3.5.6
 - RabbitMQ
+- Flyway
+- Postgresql
 
 Microservicio de Backend BP identificados.
 1. MsClientes: Persona + Cliente.
@@ -16,7 +18,7 @@ Arquitectura limpia:
                   |                       |
                   v                       v
              (DTOs Mapper)              (Entidades)
-             
+
 
 La comunicación debe ser asincrónica.
 RabbitMQ es mas simple que Kaftka y suficiente para este caso usando docker.
@@ -27,7 +29,7 @@ MsClientes --[ evento ClienteCreado/ClienteActualizado ]--> RabbitMQ --> MsCuent
 
 
 Definir entidades y tablas en base de datos.
-Nombre de la base de datos del microservicio MsClientes: ms_clientes y su tablas son Persona y Cliente.
+Nombre de la base de datos del microservicio MsClientes: clientesdb y su tablas son Persona y Cliente.
 - Persona: 
     nombre
     genero
@@ -43,7 +45,7 @@ Nombre de la base de datos del microservicio MsClientes: ms_clientes y su tablas
     estado
     La llave primaria es el id
     
-Nombre de la base de datos del microservicio MsCuentas: ms_cuentas y su tablas son Cuenta y Movimiento.
+Nombre de la base de datos del microservicio MsCuentas: cuentasdb y su tablas son Cuenta y Movimiento.
 - Cuenta:
     numeroCuenta
     tipoCuenta
@@ -60,6 +62,19 @@ Nombre de la base de datos del microservicio MsCuentas: ms_cuentas y su tablas s
     saldo
     cuenta (relacion)
     La llave primaria es la fecha (clave foranea a cuenta)
-    
+NOTA: Como voy a usar flyway, usar esta propiedad en el application.yml: ddl-auto=validate (no update).
+
 ¿Como se releacion la cuenta con el cliente si estan en base de datos diferentes? 
 Copia local de la tabla cliente en ms_cuentas.
+
+Arquitectura completa:
+
+┌─────────────────┐         ┌──────────────┐         ┌─────────────────┐
+│   MS-Clientes   │         │   RabbitMQ   │         │   MS-Cuentas    │
+│ (Persona,       │──pub───▶│  exchange    │──sub───▶│ (Cuenta,        │
+│  Cliente)       │ evento  │  topic       │ evento  │  Movimiento)    │
+│                 │         └──────────────┘         │  + copia local  │
+│  BD: clientesdb │                                  │   de cliente    │
+└─────────────────┘                                  │  BD: cuentasdb  │
+                                                      └─────────────────┘
+        cada uno su propia BD (database-per-service)
