@@ -78,3 +78,24 @@ Arquitectura completa:
 └─────────────────┘                                  │  BD: cuentasdb  │
                                                       └─────────────────┘
         cada uno su propia BD (database-per-service)
+
+Definicion de carpetas para soportar architectura hexagonal:
+
+com.devsu.clientes
+├── domain/                      ← el núcleo, sin dependencias de framework
+│   ├── model/                   (Persona, Cliente, ClienteEvent)
+│   └── port/
+│       ├── in/                  (puetos de entrada: ej. GestionarClienteUseCase)
+│       └── out/                 (puertos de salida: ClienteRepositoryPort, ClienteEvnetPublisher)
+│
+├── application/                 ← implementa los casos de uso (puertos in)
+│   └── service/                 (ClienteService implements GestionarClienteUseCase,
+│                                 orquesta dominio + puertos out)
+│
+└── infrastructure/              ← los adaptadores, aquí vive el framework
+    ├── in/web/                  (ClienteController — adaptador REST)
+    └── out/
+        ├── persistence/         (adaptador JPA: implementa ClienteRepositoryPort,
+        │                         entidades @Entity, Spring Data repo, mapper)
+        └── messaging/           (RabbitClienteEventPublisher — implementa el puerto,
+                                  config de exchange/queue/binding)
