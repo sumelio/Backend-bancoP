@@ -1,7 +1,8 @@
 package com.devsu.clientes.application.service;
 
 import com.devsu.clientes.domain.model.Cliente;
-import com.devsu.clientes.domain.model.ClienteEvent;
+import com.devsu.clientes.domain.model.event.ClienteEvent;
+import com.devsu.clientes.domain.model.event.EventType;
 import com.devsu.clientes.domain.port.in.GestionarClienteUseCase;
 import com.devsu.clientes.domain.port.out.ClienteEventPublisher;
 import com.devsu.clientes.domain.port.out.ClienteRepositoryPort;
@@ -9,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +20,11 @@ public class ClienteService implements GestionarClienteUseCase {
 
     private final ClienteRepositoryPort clienteRepository;
     private final ClienteEventPublisher eventPublisher;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public ClienteService(ClienteRepositoryPort clienteRepository,
                           ClienteEventPublisher eventPublisher,
-                          BCryptPasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder) {
         this.clienteRepository = clienteRepository;
         this.eventPublisher = eventPublisher;
         this.passwordEncoder = passwordEncoder;
@@ -48,8 +49,8 @@ public class ClienteService implements GestionarClienteUseCase {
                 clienteGuardado.getClienteId(),
                 clienteGuardado.getNombre(),
                 clienteGuardado.getEstado(),
-                "CREATED",
-                ZonedDateTime.now()
+                EventType.CREATED,
+                Instant.now()
         );
         eventPublisher.publish(event);
 
@@ -103,8 +104,8 @@ public class ClienteService implements GestionarClienteUseCase {
                 clienteActualizado.getClienteId(),
                 clienteActualizado.getNombre(),
                 clienteActualizado.getEstado(),
-                "UPDATED",
-                ZonedDateTime.now()
+                EventType.UPDATED,
+                Instant.now()
         );
         eventPublisher.publish(event);
 
@@ -116,15 +117,16 @@ public class ClienteService implements GestionarClienteUseCase {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
 
-        clienteRepository.deleteById(id);
+        cliente.setEstado(false);
+        clienteRepository.save(cliente);
 
-        // Publicar evento de cliente eliminado
+        // Publicar evento de cliente eliminado (como UPDATED con estado=false)
         ClienteEvent event = new ClienteEvent(
                 cliente.getClienteId(),
                 cliente.getNombre(),
                 false,
-                "DELETED",
-                ZonedDateTime.now()
+                EventType.UPDATED,
+                Instant.now()
         );
         eventPublisher.publish(event);
     }

@@ -10,6 +10,5 @@ public interface ClienteRepositoryPort {
     Optional<Cliente> findById(Long id);
     Optional<Cliente> findByClienteId(String clienteId);
     List<Cliente> findAll();
-    void deleteById(Long id);
     boolean existsByClienteId(String clienteId);
 }
