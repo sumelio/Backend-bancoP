@@ -1,20 +1,37 @@
 package com.devsu.clientes.domain.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "persona")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona extends Auditable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(length = 50)
     private String genero;
+
     private Integer edad;
+
+    @Column(length = 50, unique = true, nullable = false)
     private String identificacion;
+
     private String direccion;
+
+    @Column(length = 50)
     private String telefono;
 
     public Persona() {
     }
 
-    public Persona(Long id, String nombre, String genero, Integer edad, String identificacion,
+    public Persona(String nombre, String genero, Integer edad, String identificacion,
                    String direccion, String telefono) {
-        this.id = id;
         this.nombre = nombre;
         this.genero = genero;
         this.edad = edad;

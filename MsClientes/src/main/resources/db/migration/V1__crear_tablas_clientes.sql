@@ -19,11 +19,9 @@ CREATE TABLE persona (
 CREATE TABLE cliente (
     id                   BIGINT PRIMARY KEY,
     cliente_id           VARCHAR(50) UNIQUE NOT NULL,
-    contrasena           VARCHAR(255) NOT NULL,
+    contrasena           VARCHAR(100) NOT NULL,
     estado               BOOLEAN NOT NULL DEFAULT true,
-    fecha_creacion       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_modificacion   TIMESTAMP WITH TIME ZONE,
-    CONSTRAINT fk_cliente_persona FOREIGN KEY (id) REFERENCES persona(id) ON DELETE CASCADE
+    CONSTRAINT fk_cliente_persona FOREIGN KEY (id) REFERENCES persona(id) 
 );
 
 -- Índices adicionales para mejorar rendimiento

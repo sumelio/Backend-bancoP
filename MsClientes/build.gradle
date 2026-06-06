@@ -18,6 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework.security:spring-security-crypto'
 
     runtimeOnly 'org.postgresql:postgresql'
 
