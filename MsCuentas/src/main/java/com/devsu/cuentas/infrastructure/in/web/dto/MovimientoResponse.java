@@ -7,10 +7,10 @@ import java.time.Instant;
 
 public record MovimientoResponse(
         Long id,
-        Instant fecha,
+        String numeroCuenta,
         TipoMovimiento tipo,
         BigDecimal valor,
         BigDecimal saldo,
-        String numeroCuenta
+        Instant fecha
 ) {
 }

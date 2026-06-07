@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    
     @ExceptionHandler(ClienteNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleClienteNotFoundException(
             ClienteNotFoundException ex, HttpServletRequest request) {
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    
     @ExceptionHandler(ClienteAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleClienteAlreadyExistsException(
             ClienteAlreadyExistsException ex, HttpServletRequest request) {
@@ -51,14 +53,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex, HttpServletRequest request) {
 
         String message = "Error de integridad de datos";
-
-        // Detectar violaciones de unicidad
         String rootCauseMessage = ex.getMostSpecificCause().getMessage();
+
         if (rootCauseMessage != null &&
             (rootCauseMessage.toLowerCase().contains("unique") ||
              rootCauseMessage.toLowerCase().contains("duplicate"))) {
@@ -78,11 +80,10 @@ public class GlobalExceptionHandler {
                 message,
                 request.getRequestURI()
             );
-
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
 
-        // Otras violaciones de integridad → 400 Bad Request
+        logger.error("Error de integridad de datos en {}: ", request.getRequestURI(), ex);
         ErrorResponse errorResponse = new ErrorResponse(
             Instant.now(),
             HttpStatus.BAD_REQUEST.value(),
@@ -90,7 +91,6 @@ public class GlobalExceptionHandler {
             message,
             request.getRequestURI()
         );
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -128,6 +128,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(
             Exception ex, HttpServletRequest request) {
@@ -138,7 +139,7 @@ public class GlobalExceptionHandler {
             Instant.now(),
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Internal Server Error",
-            "Ha ocurrido un error inesperado. Por favor contacte al administrador.",
+            "Ha ocurrido un error inesperado",
             request.getRequestURI()
         );
 

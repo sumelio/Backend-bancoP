@@ -2,11 +2,12 @@ package com.devsu.cuentas.application.service;
 
 import com.devsu.cuentas.domain.exception.CuentaInactivaException;
 import com.devsu.cuentas.domain.exception.CuentaNotFoundException;
-import com.devsu.cuentas.domain.exception.SaldoNoDisponibleException;
 import com.devsu.cuentas.domain.exception.MontoInvalidoException;
+import com.devsu.cuentas.domain.exception.SaldoNoDisponibleException;
 import com.devsu.cuentas.domain.model.Cuenta;
 import com.devsu.cuentas.domain.model.Movimiento;
 import com.devsu.cuentas.domain.model.TipoMovimiento;
+import com.devsu.cuentas.domain.port.in.RegistrarMovimientoUseCase;
 import com.devsu.cuentas.domain.port.out.CuentaRepositoryPort;
 import com.devsu.cuentas.domain.port.out.MovimientoRepositoryPort;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 @Service
-public class MovimientoService {
+public class MovimientoService implements RegistrarMovimientoUseCase {
 
     private static final Logger logger = LoggerFactory.getLogger(MovimientoService.class);
 
@@ -41,6 +42,7 @@ public class MovimientoService {
      * @throws CuentaInactivaException si la cuenta está inactiva
      * @throws SaldoNoDisponibleException si el saldo es insuficiente
      */
+    @Override
     @Transactional
     public Movimiento registrarMovimiento(String numeroCuenta, TipoMovimiento tipo,  BigDecimal monto) {
         validarMontoPositivo(monto);

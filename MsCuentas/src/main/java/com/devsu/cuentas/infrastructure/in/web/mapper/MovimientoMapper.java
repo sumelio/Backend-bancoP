@@ -6,17 +6,16 @@ import com.devsu.cuentas.infrastructure.in.web.dto.MovimientoResponse;
 public class MovimientoMapper {
 
     private MovimientoMapper() {
-        // Utility class
     }
 
-    public static MovimientoResponse toResponse(Movimiento movimiento) {
+    public static MovimientoResponse toResponse(Movimiento movimiento, String numeroCuenta) {
         return new MovimientoResponse(
                 movimiento.getId(),
-                movimiento.getFecha(),
+                numeroCuenta,
                 movimiento.getTipo(),
                 movimiento.getValor(),
                 movimiento.getSaldo(),
-                movimiento.getCuenta().getNumeroCuenta()
+                movimiento.getFecha()
         );
     }
 }
