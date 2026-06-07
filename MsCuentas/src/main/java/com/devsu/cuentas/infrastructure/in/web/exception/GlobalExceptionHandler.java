@@ -1,5 +1,7 @@
 package com.devsu.cuentas.infrastructure.in.web.exception;
 
+import com.devsu.cuentas.domain.exception.ClienteNoEncontradoException;
+import com.devsu.cuentas.domain.exception.CuentaAlreadyExistsException;
 import com.devsu.cuentas.domain.exception.CuentaInactivaException;
 import com.devsu.cuentas.domain.exception.CuentaNotFoundException;
 import com.devsu.cuentas.domain.exception.MontoInvalidoException;
@@ -39,7 +41,36 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-     
+    @ExceptionHandler(ClienteNoEncontradoException.class)
+    public ResponseEntity<ErrorResponse> handleClienteNoEncontradoException(
+            ClienteNoEncontradoException ex, HttpServletRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(CuentaAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCuentaAlreadyExistsException(
+            CuentaAlreadyExistsException ex, HttpServletRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                "Conflict",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
     @ExceptionHandler(SaldoNoDisponibleException.class)
     public ResponseEntity<ErrorResponse> handleSaldoNoDisponibleException(
             SaldoNoDisponibleException ex, HttpServletRequest request) {
@@ -62,7 +93,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "Bad Request",
                 ex.getMessage(),
                 request.getRequestURI()
