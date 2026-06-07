@@ -4,9 +4,9 @@ import com.devsu.clientes.domain.model.Cliente;
 import com.devsu.clientes.domain.model.event.ClienteEvent;
 import com.devsu.clientes.domain.model.event.EventType;
 import com.devsu.clientes.domain.port.in.GestionarClienteUseCase;
-import com.devsu.clientes.domain.port.out.ClienteEventPublisher;
 import com.devsu.clientes.domain.port.out.ClienteRepositoryPort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.Optional;
 public class ClienteService implements GestionarClienteUseCase {
 
     private final ClienteRepositoryPort clienteRepository;
-    private final ClienteEventPublisher eventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final PasswordEncoder passwordEncoder;
 
     public ClienteService(ClienteRepositoryPort clienteRepository,
-                          ClienteEventPublisher eventPublisher,
+                          ApplicationEventPublisher applicationEventPublisher,
                           PasswordEncoder passwordEncoder) {
         this.clienteRepository = clienteRepository;
-        this.eventPublisher = eventPublisher;
+        this.applicationEventPublisher = applicationEventPublisher;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -52,7 +52,7 @@ public class ClienteService implements GestionarClienteUseCase {
                 EventType.CREATED,
                 Instant.now()
         );
-        eventPublisher.publish(event);
+        applicationEventPublisher.publishEvent(event);
 
         return clienteGuardado;
     }
@@ -84,7 +84,6 @@ public class ClienteService implements GestionarClienteUseCase {
         clienteExistente.setNombre(cliente.getNombre());
         clienteExistente.setGenero(cliente.getGenero());
         clienteExistente.setEdad(cliente.getEdad());
-        clienteExistente.setIdentificacion(cliente.getIdentificacion());
         clienteExistente.setDireccion(cliente.getDireccion());
         clienteExistente.setTelefono(cliente.getTelefono());
 
@@ -107,7 +106,7 @@ public class ClienteService implements GestionarClienteUseCase {
                 EventType.UPDATED,
                 Instant.now()
         );
-        eventPublisher.publish(event);
+        applicationEventPublisher.publishEvent(event);
 
         return clienteActualizado;
     }
@@ -128,6 +127,6 @@ public class ClienteService implements GestionarClienteUseCase {
                 EventType.UPDATED,
                 Instant.now()
         );
-        eventPublisher.publish(event);
+        applicationEventPublisher.publishEvent(event);
     }
 }
