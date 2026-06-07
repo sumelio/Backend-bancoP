@@ -1,8 +1,8 @@
-package com.devsu.clientes.infrastructure.persistence;
+package com.devsu.clientes.infrastructure.out.persistence;
 
 import com.devsu.clientes.domain.model.Cliente;
 import com.devsu.clientes.domain.port.out.ClienteRepositoryPort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

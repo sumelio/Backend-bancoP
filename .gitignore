@@ -1,0 +1,59 @@
+# ==================== IDE ====================
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# ==================== Sistema Operativo ====================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# ==================== Logs ====================
+*.log
+logs/
+
+# ==================== Temporal ====================
+*.tmp
+*.temp
+*.swp
+*~
+
+# ==================== Variables de Entorno ====================
+.env
+.env.local
+.env.*.local
+
+# ==================== Docker ====================
+docker-compose.override.yml
+.docker/
+
+# ==================== Documentación Generada ====================
+*.pdf
+*.docx
+!docs/**/*.pdf
+!docs/**/*.docx
+
+# ==================== Base de Datos ====================
+*.db
+*.sqlite
+data/
+
+# ==================== Archivos Sensibles ====================
+**/credentials.json
+**/secrets.yml
+*.pem
+*.key
+*.crt

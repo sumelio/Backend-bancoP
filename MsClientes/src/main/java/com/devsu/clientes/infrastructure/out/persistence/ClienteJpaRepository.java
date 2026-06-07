@@ -1,4 +1,4 @@
-package com.devsu.clientes.infrastructure.persistence;
+package com.devsu.clientes.infrastructure.out.persistence;
 
 import com.devsu.clientes.domain.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;

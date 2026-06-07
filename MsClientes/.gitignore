@@ -1,0 +1,143 @@
+# ==================== Gradle ====================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+gradle-app.setting
+.gradletasknamecache
+
+# ==================== Spring Boot ====================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ==================== IntelliJ IDEA ====================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# ==================== VS Code ====================
+.vscode/
+*.code-workspace
+.history/
+
+# ==================== Eclipse ====================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# ==================== NetBeans ====================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ==================== macOS ====================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ==================== Windows ====================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# ==================== Linux ====================
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==================== Logs ====================
+*.log
+logs/
+*.log.*
+log/
+
+# ==================== Aplicación ====================
+# Archivos de configuración sensibles
+application-local.yml
+application-local.properties
+application-dev.yml
+application-dev.properties
+application-prod.yml
+application-prod.properties
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# ==================== Base de Datos ====================
+*.db
+*.sqlite
+*.sqlite3
+data/
+*.h2.db
+
+# ==================== Seguridad ====================
+# No commitear archivos con credenciales o secretos
+**/credentials.json
+**/secrets.yml
+**/keystore.jks
+*.pem
+*.key
+*.crt
+*.p12
+
+# ==================== Temporal ====================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# ==================== Testing ====================
+.test-results/
+coverage/
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ==================== Docker ====================
+# Ignorar solo si se usan variables de entorno locales
+docker-compose.override.yml
+.docker/
+
+# ==================== RabbitMQ ====================
+# Archivos de configuración local de RabbitMQ
+rabbitmq_data/

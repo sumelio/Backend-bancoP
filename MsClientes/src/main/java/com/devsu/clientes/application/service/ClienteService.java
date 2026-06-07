@@ -1,5 +1,7 @@
 package com.devsu.clientes.application.service;
 
+import com.devsu.clientes.domain.exception.ClienteAlreadyExistsException;
+import com.devsu.clientes.domain.exception.ClienteNotFoundException;
 import com.devsu.clientes.domain.model.Cliente;
 import com.devsu.clientes.domain.model.event.ClienteEvent;
 import com.devsu.clientes.domain.model.event.EventType;
@@ -12,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,41 +33,20 @@ public class ClienteService implements GestionarClienteUseCase {
 
     @Override
     public Cliente crearCliente(Cliente cliente) {
-        // Validar que el clienteId no exista
-        if (clienteRepository.existsByClienteId(cliente.getClienteId())) {
-            throw new IllegalArgumentException("El clienteId ya existe: " + cliente.getClienteId());
-        }
+        validateClienteDoesNotExist(cliente.getClienteId());
+        hashClientePassword(cliente);
 
-        // Hashear la contraseña antes de guardar
-        String hashedPassword = passwordEncoder.encode(cliente.getContrasena());
-        cliente.setContrasena(hashedPassword);
-
-        // Guardar el cliente
         Cliente clienteGuardado = clienteRepository.save(cliente);
-
-        // Publicar evento de cliente creado
-        ClienteEvent event = new ClienteEvent(
-                clienteGuardado.getClienteId(),
-                clienteGuardado.getNombre(),
-                clienteGuardado.getEstado(),
-                EventType.CREATED,
-                Instant.now()
-        );
-        applicationEventPublisher.publishEvent(event);
+        publishClienteEvent(clienteGuardado, EventType.CREATED);
 
         return clienteGuardado;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Cliente> obtenerClientePorId(Long id) {
-        return clienteRepository.findById(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Cliente> obtenerClientePorClienteId(String clienteId) {
-        return clienteRepository.findByClienteId(clienteId);
+    public Cliente obtenerClientePorId(Long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(id));
     }
 
     @Override
@@ -77,54 +57,68 @@ public class ClienteService implements GestionarClienteUseCase {
 
     @Override
     public Cliente actualizarCliente(Long id, Cliente cliente) {
-        Cliente clienteExistente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
-
-        // Actualizar campos de persona
-        clienteExistente.setNombre(cliente.getNombre());
-        clienteExistente.setGenero(cliente.getGenero());
-        clienteExistente.setEdad(cliente.getEdad());
-        clienteExistente.setDireccion(cliente.getDireccion());
-        clienteExistente.setTelefono(cliente.getTelefono());
-
-        // Actualizar campos de cliente
-        clienteExistente.setEstado(cliente.getEstado());
-
-        // Si se proporciona una nueva contraseña, hashearla
-        if (cliente.getContrasena() != null && !cliente.getContrasena().isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(cliente.getContrasena());
-            clienteExistente.setContrasena(hashedPassword);
-        }
+        Cliente clienteExistente = findClienteById(id);
+        updateClienteFields(clienteExistente, cliente);
+        updatePasswordIfProvided(clienteExistente, cliente);
 
         Cliente clienteActualizado = clienteRepository.save(clienteExistente);
-
-        // Publicar evento de cliente actualizado
-        ClienteEvent event = new ClienteEvent(
-                clienteActualizado.getClienteId(),
-                clienteActualizado.getNombre(),
-                clienteActualizado.getEstado(),
-                EventType.UPDATED,
-                Instant.now()
-        );
-        applicationEventPublisher.publishEvent(event);
+        publishClienteEvent(clienteActualizado, EventType.UPDATED);
 
         return clienteActualizado;
     }
 
     @Override
     public void eliminarCliente(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
+        Cliente cliente = findClienteById(id);
+        deactivateCliente(cliente);
+        publishClienteEvent(cliente, EventType.UPDATED);
+    }
 
+    // ==================== Métodos privados ====================
+
+    private void validateClienteDoesNotExist(String clienteId) {
+        if (clienteRepository.existsByClienteId(clienteId)) {
+            throw new ClienteAlreadyExistsException(clienteId);
+        }
+    }
+
+    private void hashClientePassword(Cliente cliente) {
+        String hashedPassword = passwordEncoder.encode(cliente.getContrasena());
+        cliente.setContrasena(hashedPassword);
+    }
+
+    private Cliente findClienteById(Long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(id));
+    }
+
+    private void updateClienteFields(Cliente target, Cliente source) {
+        target.setNombre(source.getNombre());
+        target.setGenero(source.getGenero());
+        target.setEdad(source.getEdad());
+        target.setDireccion(source.getDireccion());
+        target.setTelefono(source.getTelefono());
+        target.setEstado(source.getEstado());
+    }
+
+    private void updatePasswordIfProvided(Cliente target, Cliente source) {
+        if (source.getContrasena() != null && !source.getContrasena().isEmpty()) {
+            hashClientePassword(source);
+            target.setContrasena(source.getContrasena());
+        }
+    }
+
+    private void deactivateCliente(Cliente cliente) {
         cliente.setEstado(false);
         clienteRepository.save(cliente);
+    }
 
-        // Publicar evento de cliente eliminado (como UPDATED con estado=false)
+    private void publishClienteEvent(Cliente cliente, EventType eventType) {
         ClienteEvent event = new ClienteEvent(
                 cliente.getClienteId(),
                 cliente.getNombre(),
-                false,
-                EventType.UPDATED,
+                cliente.getEstado(),
+                eventType,
                 Instant.now()
         );
         applicationEventPublisher.publishEvent(event);
