@@ -31,7 +31,7 @@ public class ClienteEventListener {
             logger.error("Error al publicar evento a RabbitMQ: {} - {}. Error: {}",
                          event.eventType(), event.clienteId(), e.getMessage(), e);
             // El evento no se publica pero la transacción ya fue confirmada
-            // Considerar implementar un mecanismo de reintento o dead letter queue
+            // Considerar implementar un mecanismo de reintento o dead letter queue.
         }
     }
 }
