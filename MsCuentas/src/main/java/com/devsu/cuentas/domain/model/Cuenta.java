@@ -16,7 +16,7 @@ public class Cuenta extends Auditable {
     private String numeroCuenta;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private TipoCuenta tipo;
 
     @Column(name = "saldo_inicial", nullable = false, precision = 15, scale = 2)
