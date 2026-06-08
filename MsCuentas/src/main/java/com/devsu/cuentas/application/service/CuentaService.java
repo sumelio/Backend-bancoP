@@ -3,6 +3,7 @@ package com.devsu.cuentas.application.service;
 import com.devsu.cuentas.domain.exception.ClienteNoEncontradoException;
 import com.devsu.cuentas.domain.exception.CuentaAlreadyExistsException;
 import com.devsu.cuentas.domain.exception.CuentaNotFoundException;
+import com.devsu.cuentas.domain.exception.MontoInvalidoException;
 import com.devsu.cuentas.domain.model.Cuenta;
 import com.devsu.cuentas.domain.port.in.GestionarCuentaUseCase;
 import com.devsu.cuentas.domain.port.out.ClienteLocalRepositoryPort;
@@ -10,6 +11,7 @@ import com.devsu.cuentas.domain.port.out.CuentaRepositoryPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -34,7 +36,9 @@ public class CuentaService implements GestionarCuentaUseCase {
         // 2. Validar que el cliente exista en la réplica local
         clienteLocalRepository.findByClienteId(cuenta.getClienteId())
                 .orElseThrow(() -> new ClienteNoEncontradoException(cuenta.getClienteId()));
-        // 3. saldoDisponible ya = saldoInicial (constructor)
+        // 3. Validar saldoInicial (máximo 2 decimales)
+        validarSaldoInicial(cuenta.getSaldoInicial());
+        // 4. saldoDisponible ya = saldoInicial (constructor)
         return cuentaRepository.save(cuenta);
     }
 
@@ -71,5 +75,11 @@ public class CuentaService implements GestionarCuentaUseCase {
         }
         // Nota: saldoInicial y saldoDisponible no se actualizan directamente
         // El saldoDisponible solo se modifica mediante movimientos
+    }
+
+    private void validarSaldoInicial(BigDecimal saldoInicial) {
+        if (saldoInicial != null && saldoInicial.scale() > 2) {
+            throw new MontoInvalidoException("El saldo inicial no puede tener más de 2 decimales");
+        }
     }
 }

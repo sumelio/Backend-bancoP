@@ -60,6 +60,9 @@ public class MovimientoService implements RegistrarMovimientoUseCase {
         if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
             throw new MontoInvalidoException("El monto debe ser mayor a cero");
         }
+        if (monto.scale() > 2) {
+            throw new MontoInvalidoException("El monto no puede tener más de 2 decimales");
+        }
     }
 
     private Cuenta findCuentaConBloqueo(String numeroCuenta) {
