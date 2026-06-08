@@ -14,7 +14,6 @@ import java.time.Instant;
 public abstract class Auditable {
 
     @CreatedDate
-    @Column(updatable = false)
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private Instant fechaCreacion;
 
