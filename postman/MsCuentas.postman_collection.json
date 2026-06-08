@@ -1,0 +1,598 @@
+{
+	"info": {
+		"_postman_id": "ms-cuentas-api",
+		"name": "MsCuentas API",
+		"description": "Colección de APIs para el microservicio de Cuentas y Movimientos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cuentas",
+			"item": [
+				{
+					"name": "Crear Cuenta - Ahorros Jose Lema",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"AHORROS\",\n  \"saldoInicial\": 2000,\n  \"estado\": true,\n  \"clienteId\": \"CLI001\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						},
+						"description": "Crea una cuenta de ahorros para Jose Lema"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cuenta - Corriente Marianela",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"225487\",\n  \"tipo\": \"CORRIENTE\",\n  \"saldoInicial\": 100,\n  \"estado\": true,\n  \"clienteId\": \"CLI002\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cuenta - Ahorros Marianela",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"495878\",\n  \"tipo\": \"AHORROS\",\n  \"saldoInicial\": 0,\n  \"estado\": true,\n  \"clienteId\": \"CLI002\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cuenta - Ahorros Juan Osorio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"496825\",\n  \"tipo\": \"AHORROS\",\n  \"saldoInicial\": 0,\n  \"estado\": true,\n  \"clienteId\": \"CLI003\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cuenta - Corriente Juan Osorio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"585545\",\n  \"tipo\": \"CORRIENTE\",\n  \"saldoInicial\": 1000,\n  \"estado\": true,\n  \"clienteId\": \"CLI003\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cuenta por Número",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/cuentas/478758",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas", "478758"]
+						},
+						"description": "Obtiene una cuenta específica por su número"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cuentas por Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/cuentas?clienteId=CLI001",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI001"
+								}
+							]
+						},
+						"description": "Lista todas las cuentas de un cliente específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"CORRIENTE\",\n  \"saldoInicial\": 2000,\n  \"estado\": false,\n  \"clienteId\": \"CLI001\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas/478758",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas", "478758"]
+						},
+						"description": "Actualiza tipo y estado de una cuenta (saldos no se modifican)"
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Cuenta No Encontrada",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/cuentas/999999",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas", "999999"]
+						},
+						"description": "Prueba de error 404 - Cuenta no encontrada"
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Cliente No Encontrado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"999999\",\n  \"tipo\": \"AHORROS\",\n  \"saldoInicial\": 1000,\n  \"estado\": true,\n  \"clienteId\": \"CLI999\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/cuentas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["cuentas"]
+						},
+						"description": "Prueba de error 404 - Cliente no existe en replica local"
+					},
+					"response": []
+				}
+			],
+			"description": "Operaciones CRUD de Cuentas"
+		},
+		{
+			"name": "Movimientos",
+			"item": [
+				{
+					"name": "Depósito - 575 en cuenta 478758",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": 575\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						},
+						"description": "Registra un depósito (saldo: 2000 + 575 = 2575)"
+					},
+					"response": []
+				},
+				{
+					"name": "Retiro - 575 de cuenta 478758",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"RETIRO\",\n  \"monto\": 575\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						},
+						"description": "Registra un retiro (saldo: 2575 - 575 = 2000)"
+					},
+					"response": []
+				},
+				{
+					"name": "Depósito - 600 en cuenta 225487",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"225487\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": 600\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Depósito - 150 en cuenta 495878",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"495878\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": 150\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retiro - 540 de cuenta 585545",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"585545\",\n  \"tipo\": \"RETIRO\",\n  \"monto\": 540\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Saldo No Disponible",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"RETIRO\",\n  \"monto\": 10000\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						},
+						"description": "Prueba de error 422 - Saldo insuficiente"
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Cuenta Inactiva",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": 100\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						},
+						"description": "Primero desactivar la cuenta 478758, luego ejecutar esto para probar error 422"
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Monto Inválido (negativo)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": -100\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/movimientos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["movimientos"]
+						},
+						"description": "Prueba de error 400 - Monto debe ser positivo"
+					},
+					"response": []
+				}
+			],
+			"description": "Operaciones de Movimientos (Depósitos y Retiros)"
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "Reporte - Jose Lema (CLI001)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/reportes?clienteId=CLI001&desde=2026-06-01&hasta=2026-06-30",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["reportes"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI001"
+								},
+								{
+									"key": "desde",
+									"value": "2026-06-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2026-06-30"
+								}
+							]
+						},
+						"description": "Genera reporte de movimientos de Jose Lema en junio 2026"
+					},
+					"response": []
+				},
+				{
+					"name": "Reporte - Marianela Montalvo (CLI002)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/reportes?clienteId=CLI002&desde=2026-06-01&hasta=2026-06-30",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["reportes"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI002"
+								},
+								{
+									"key": "desde",
+									"value": "2026-06-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2026-06-30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reporte - Juan Osorio (CLI003)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/reportes?clienteId=CLI003&desde=2026-06-01&hasta=2026-06-30",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["reportes"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI003"
+								},
+								{
+									"key": "desde",
+									"value": "2026-06-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2026-06-30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reporte - Hoy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/reportes?clienteId=CLI001&desde=2026-06-08&hasta=2026-06-08",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["reportes"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI001"
+								},
+								{
+									"key": "desde",
+									"value": "2026-06-08"
+								},
+								{
+									"key": "hasta",
+									"value": "2026-06-08"
+								}
+							]
+						},
+						"description": "Reporte de movimientos del día actual"
+					},
+					"response": []
+				},
+				{
+					"name": "Error - Cliente No Encontrado en Reporte",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/reportes?clienteId=CLI999&desde=2026-06-01&hasta=2026-06-30",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8091",
+							"path": ["reportes"],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "CLI999"
+								},
+								{
+									"key": "desde",
+									"value": "2026-06-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2026-06-30"
+								}
+							]
+						},
+						"description": "Prueba de error 404 - Cliente no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "Generación de Reportes de Movimientos"
+		}
+	]
+}

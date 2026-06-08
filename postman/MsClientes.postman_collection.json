@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "ms-clientes-api",
+		"name": "MsClientes API",
+		"description": "Colección de APIs para el microservicio de Clientes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Cliente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clienteId\": \"CLI001\",\n  \"nombre\": \"Jose Lema\",\n  \"genero\": \"M\",\n  \"edad\": 30,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Otavalo sn y principal\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"1234\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				},
+				"description": "Crea un nuevo cliente en el sistema"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Cliente - Marianela Montalvo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clienteId\": \"CLI002\",\n  \"nombre\": \"Marianela Montalvo\",\n  \"genero\": \"F\",\n  \"edad\": 28,\n  \"identificacion\": \"0987654321\",\n  \"direccion\": \"Amazonas y NNUU\",\n  \"telefono\": \"097548965\",\n  \"contrasena\": \"5678\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Cliente - Juan Osorio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clienteId\": \"CLI003\",\n  \"nombre\": \"Juan Osorio\",\n  \"genero\": \"M\",\n  \"edad\": 35,\n  \"identificacion\": \"1122334455\",\n  \"direccion\": \"13 junio y Equinoccial\",\n  \"telefono\": \"098874587\",\n  \"contrasena\": \"1245\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Cliente por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/clientes/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes", "1"]
+				},
+				"description": "Obtiene un cliente específico por su ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Todos los Clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				},
+				"description": "Lista todos los clientes registrados"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clienteId\": \"CLI001\",\n  \"nombre\": \"Jose Lema Actualizado\",\n  \"genero\": \"M\",\n  \"edad\": 31,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Otavalo sn y principal - Casa 123\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"nuevaPassword123\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes", "1"]
+				},
+				"description": "Actualiza los datos de un cliente existente"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Cliente (Soft Delete)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/clientes/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes", "1"]
+				},
+				"description": "Elimina lógicamente un cliente (establece estado=false)"
+			},
+			"response": []
+		},
+		{
+			"name": "Error - Cliente No Encontrado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/clientes/9999",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes", "9999"]
+				},
+				"description": "Prueba de error 404 - Cliente no encontrado"
+			},
+			"response": []
+		},
+		{
+			"name": "Error - Cliente Duplicado",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clienteId\": \"CLI001\",\n  \"nombre\": \"Duplicado\",\n  \"genero\": \"M\",\n  \"edad\": 30,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Test\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"test\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				},
+				"description": "Prueba de error 409 - Cliente ya existe"
+			},
+			"response": []
+		},
+		{
+			"name": "Error - Validación Campo Obligatorio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nombre\": \"Sin ClienteId\",\n  \"genero\": \"M\",\n  \"edad\": 30,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Test\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"test\",\n  \"estado\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/clientes",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8090",
+					"path": ["clientes"]
+				},
+				"description": "Prueba de error 400 - Validación de campos obligatorios"
+			},
+			"response": []
+		}
+	]
+}
