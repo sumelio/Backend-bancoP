@@ -1,8 +1,8 @@
 spring:
   application:
-    name: ms-clientes
+    name: ms-cuentas
   datasource:
-    url: jdbc:postgresql://localhost:5432/clientesdb
+    url: jdbc:postgresql://localhost:5432/cuentasdb
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
@@ -22,4 +22,4 @@ spring:
     username: guest
     password: guest
 server:
-  port: 8080
+  port: 8081

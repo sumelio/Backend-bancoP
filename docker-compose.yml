@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  # PostgreSQL para MsClientes
+  postgres-clientes:
+    image: postgres:14-alpine
+    container_name: postgres-clientes
+    environment:
+      POSTGRES_DB: clientesdb
+      POSTGRES_USER: devsu
+      POSTGRES_PASSWORD: devsu123
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-clientes-data:/var/lib/postgresql/data
+    networks:
+      - devsu-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devsu -d clientesdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL para MsCuentas
+  postgres-cuentas:
+    image: postgres:14-alpine
+    container_name: postgres-cuentas
+    environment:
+      POSTGRES_DB: cuentasdb
+      POSTGRES_USER: devsu
+      POSTGRES_PASSWORD: devsu123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-cuentas-data:/var/lib/postgresql/data
+    networks:
+      - devsu-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devsu -d cuentasdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: devsu
+      RABBITMQ_DEFAULT_PASS: devsu123
+    ports:
+      - "5672:5672"   # Puerto AMQP
+      - "15672:15672" # Puerto Management UI
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - devsu-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Microservicio Clientes
+  ms-clientes:
+    build:
+      context: ./MsClientes
+      dockerfile: Dockerfile
+    container_name: ms-clientes
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-clientes:5432/clientesdb
+      SPRING_DATASOURCE_USERNAME: devsu
+      SPRING_DATASOURCE_PASSWORD: devsu123
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: devsu
+      SPRING_RABBITMQ_PASSWORD: devsu123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: true
+    ports:
+      - "8090:8080"
+    depends_on:
+      postgres-clientes:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - devsu-network
+    restart: on-failure
+
+  # Microservicio Cuentas
+  ms-cuentas:
+    build:
+      context: ./MsCuentas
+      dockerfile: Dockerfile
+    container_name: ms-cuentas
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-cuentas:5432/cuentasdb
+      SPRING_DATASOURCE_USERNAME: devsu
+      SPRING_DATASOURCE_PASSWORD: devsu123
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: devsu
+      SPRING_RABBITMQ_PASSWORD: devsu123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: true
+      SERVER_PORT: 8081
+    ports:
+      - "8091:8081"
+    depends_on:
+      postgres-cuentas:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - devsu-network
+    restart: on-failure
+
+networks:
+  devsu-network:
+    driver: bridge
+
+volumes:
+  postgres-clientes-data:
+  postgres-cuentas-data:
+  rabbitmq-data:
