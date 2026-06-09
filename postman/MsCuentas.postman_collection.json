@@ -1,11 +1,11 @@
 {
   "info": {
-    "_postman_id": "0f7ee6af-f7ff-458a-a34b-81a9b9c5c11a",
+    "_postman_id": "f4c1d160-dc04-4363-a29a-7be68142b5e8",
     "name": "msCuentas API",
     "description": "Colección de APIs para el microservicio de Cuentas y Movimientos",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "41703147",
-    "_collection_link": "https://go.postman.co/collection/41703147-0f7ee6af-f7ff-458a-a34b-81a9b9c5c11a?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/41703147-f4c1d160-dc04-4363-a29a-7be68142b5e8?source=collection_link"
   },
   "item": [
     {
@@ -440,6 +440,34 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"numeroCuenta\": \"585545\",\n  \"tipo\": \"RETIRO\",\n  \"monto\": 540\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8091/movimientos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8091",
+              "path": [
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deposito - 540 cuenta INACTIVA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroCuenta\": \"585111\",\n  \"tipo\": \"DEPOSITO\",\n  \"monto\": 540\n}"
             },
             "url": {
               "raw": "http://localhost:8091/movimientos",
