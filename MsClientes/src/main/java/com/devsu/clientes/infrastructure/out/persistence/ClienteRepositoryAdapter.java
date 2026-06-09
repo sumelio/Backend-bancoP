@@ -33,7 +33,7 @@ public class ClienteRepositoryAdapter implements ClienteRepositoryPort {
 
     @Override
     public List<Cliente> findAll() {
-        return jpaRepository.findAll();
+        return jpaRepository.findAllByOrderByIdAsc();
     }
 
     @Override
