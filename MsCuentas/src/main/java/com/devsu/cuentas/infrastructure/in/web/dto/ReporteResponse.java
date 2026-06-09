@@ -1,7 +1,6 @@
 package com.devsu.cuentas.infrastructure.in.web.dto;
 
 import com.devsu.cuentas.domain.model.TipoCuenta;
-import com.devsu.cuentas.domain.model.TipoMovimiento;
 
 import java.math.BigDecimal;
 import java.time.Instant;

@@ -1,11 +1,6 @@
 package com.devsu.cuentas.infrastructure.in.web.exception;
 
-import com.devsu.cuentas.domain.exception.ClienteNoEncontradoException;
-import com.devsu.cuentas.domain.exception.CuentaAlreadyExistsException;
-import com.devsu.cuentas.domain.exception.CuentaInactivaException;
-import com.devsu.cuentas.domain.exception.CuentaNotFoundException;
-import com.devsu.cuentas.domain.exception.MontoInvalidoException;
-import com.devsu.cuentas.domain.exception.SaldoNoDisponibleException;
+import com.devsu.cuentas.domain.exception.*;
 import com.devsu.cuentas.infrastructure.in.web.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -24,6 +19,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final String BAD_REQUEST = "Bad Request";
 
      
     @ExceptionHandler(CuentaNotFoundException.class)
@@ -110,7 +106,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
+                BAD_REQUEST,
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -130,7 +126,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
+                BAD_REQUEST,
                 message,
                 request.getRequestURI()
         );
@@ -170,7 +166,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
+                BAD_REQUEST,
                 message,
                 request.getRequestURI()
         );

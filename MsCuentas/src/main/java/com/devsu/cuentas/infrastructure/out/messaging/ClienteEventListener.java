@@ -1,4 +1,4 @@
-package com.devsu.cuentas.infrastructure.in.messaging;
+package com.devsu.cuentas.infrastructure.out.messaging;
 
 import com.devsu.cuentas.domain.model.event.ClienteEvent;
 import com.devsu.cuentas.domain.port.in.SincronizarClienteUseCase;
