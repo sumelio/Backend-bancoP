@@ -10,7 +10,7 @@ Microservicio de Backend BP identificados.
 1. MsClientes: Persona + Cliente.
 2. MsCuentas: Cuenta + Movimiento.
 
-
+```bash
 Arquitectura limpia:
  Controller -> Service -> Repository -> Entity
     (API)       (logica)  (persistencia)  (dominio)
@@ -18,15 +18,16 @@ Arquitectura limpia:
                   |                       |
                   v                       v
              (DTOs Mapper)              (Entidades)
-
+```
 
 La comunicación debe ser asincrónica.
 RabbitMQ es mas simple que Kaftka y suficiente para este caso usando docker.
 
 Entendimiento del flujo
 
+```bash
 MsClientes --[ evento ClienteCreado/ClienteActualizado ]--> RabbitMQ --> MsCuentas (guardar datos localmente del cliente)
-
+```
 
 Definir entidades y tablas en base de datos.
 Nombre de la base de datos del microservicio MsClientes: clientesdb y su tablas son Persona y Cliente.
@@ -69,6 +70,7 @@ Copia local de la tabla cliente en ms_cuentas.
 
 Arquitectura completa:
 
+```bash
 ┌─────────────────┐         ┌──────────────┐         ┌─────────────────┐
 │   MS-Clientes   │         │   RabbitMQ   │         │   MS-Cuentas    │
 │ (Persona,       │──pub───▶│  exchange    │──sub───▶│ (Cuenta,        │
@@ -76,11 +78,12 @@ Arquitectura completa:
 │                 │         └──────────────┘         │  + copia local  │
 │  BD: clientesdb │                                  │   de cliente    │
 └─────────────────┘                                  │  BD: cuentasdb  │
-                                                      └─────────────────┘
+                                                     └─────────────────┘
         cada uno su propia BD (database-per-service)
-
+```
 Definicion de carpetas para soportar architectura hexagonal:
 
+```bash
 com.devsu.clientes
 ├── domain/                      ← el núcleo, sin dependencias de framework
 │   ├── model/                   (Persona, Cliente, ClienteEvent)
@@ -99,3 +102,4 @@ com.devsu.clientes
         │                         entidades @Entity, Spring Data repo, mapper)
         └── messaging/           (RabbitClienteEventPublisher — implementa el puerto,
                                   config de exchange/queue/binding)
+```

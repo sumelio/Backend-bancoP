@@ -5,6 +5,9 @@ y **MS-Cuentas** (Cuenta, Movimiento), comunicados de forma asíncrona mediante 
 
 Repositorio: https://github.com/sumelio/Backend-bancoP
 
+```bash
+git clone git@github.com:sumelio/Backend-bancoP.git
+```
 ---
 
 ## Requisitos previos
@@ -20,6 +23,10 @@ Repositorio: https://github.com/sumelio/Backend-bancoP
 
 Desde la raíz del proyecto:
 
+```bash
+cd Backend-bancoP
+```
+Ejecutar:
 ```bash
 docker compose up --build
 ```
