@@ -101,3 +101,15 @@ La colección de Postman con todos los casos de uso está en la carpeta `postman
 
 ---
 
+Prueba unitaria:
+
+```bash
+./MsClientes/src/test/java/com/devsu/clientes/domain/model/ClienteTest.java
+```
+
+
+Prueba de Integración:
+
+```bash
+./MsClientes/src/test/java/com/devsu/clientes/infrastructure/in/web/ClienteIntegrationTest.java
+```
