@@ -12,6 +12,7 @@ public class ReporteMapper {
     public static ReporteResponse toResponse(ReporteItem item) {
         return new ReporteResponse(
                 item.fecha(),
+                item.fechaInstant(),
                 item.cliente(),
                 item.numeroCuenta(),
                 item.tipoCuenta(),

@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record ReporteItem(
-    Instant fecha,
+    String fecha,
+    Instant fechaInstant,
     String cliente,
     String numeroCuenta,
     TipoCuenta tipoCuenta,

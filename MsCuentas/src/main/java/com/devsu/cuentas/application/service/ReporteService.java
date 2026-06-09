@@ -13,13 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Locale;
+
 
 @Service
 @Transactional(readOnly = true)
 public class ReporteService implements GenerarReporteUseCase {
+    private static final String FORMATO_LOCAL = "dd/MM/yyyy HH:mm:ss";
+    private static final ZoneId ZONE_COLOMBIA = ZoneId.of("America/Bogota");
 
     private final MovimientoRepositoryPort movimientoRepository;
     private final ClienteLocalRepositoryPort clienteLocalRepository;
@@ -58,6 +63,7 @@ public class ReporteService implements GenerarReporteUseCase {
         Cuenta cuenta = movimiento.getCuenta();
 
         return new ReporteItem(
+                this.convertirFechaString(movimiento.getFecha(), FORMATO_LOCAL),
                 movimiento.getFecha(),
                 nombreCliente,
                 cuenta.getNumeroCuenta(),
@@ -67,5 +73,18 @@ public class ReporteService implements GenerarReporteUseCase {
                 movimiento.getValor(),        // valor con signo: -540, +600
                 movimiento.getSaldo()         // snapshot del saldo después del movimiento
         );
+    }
+
+    private String convertirFechaString(Instant fecha, String formatoLocal) {
+        if (fecha == null) {
+            return "";
+        }
+        Locale localeEspanol = new Locale("es");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatoLocal, localeEspanol)
+                .withZone(ZONE_COLOMBIA);
+
+        // Formateamos en zona horaria de Colombia
+        return formatter.format(fecha);
     }
 }

@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record ReporteResponse(
-        Instant fecha,
+        String fecha,
+        Instant fechaInstante,
         String cliente,           // nombre, del cliente_local
         String numeroCuenta,
         TipoCuenta tipoCuenta,
